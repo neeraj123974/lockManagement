@@ -8,7 +8,12 @@ import { INIT, LOADING, SUCCESS, ERROR } from "../../../../utils/constants"
 const InitialStateInterface = {
   phase: INIT,
   error: null,
-  data: []
+  data: [] ,
+  lockData:[],
+  userLocks:[],
+  createPhase : INIT,
+  deletePhase:INIT,
+  editPhase:INIT
 }
 
 class InitialState extends Record(InitialStateInterface) {
@@ -20,6 +25,8 @@ class InitialState extends Record(InitialStateInterface) {
 
 export default function(state = new InitialState(), action = {}) {
   switch (action.type) {
+
+    //user registration action
     case type.USER_REGISTER: {
       return state.set("phase", LOADING).set("error", null)
     }
@@ -34,13 +41,13 @@ export default function(state = new InitialState(), action = {}) {
       return state.set("phase", ERROR).set("error", null)
     }
 
-
+    //user login action
     case type.USER_LOGIN: {
       return state.set("phase", LOADING).set("error", null)
     }
     case type.USER_LOGIN_SUCCESS: {
       const { payload } = action
-      console.log({payload})
+      localStorage.setItem('token', payload.data.token);
       return state
         .set("phase", SUCCESS)
         .set("data", payload.data)
@@ -48,6 +55,62 @@ export default function(state = new InitialState(), action = {}) {
     }
     case type.USER_LOGIN_ERROR: {
       return state.set("phase", ERROR).set("error", null)
+    }
+    
+    //create lock action
+    case type.CREATE_LOCK: {
+      return state.set("createPhase", LOADING).set("error", null)
+    }
+    case type.CREATE_LOCK_SUCCESS: {
+      const { payload } = action
+      return state
+        .set("createPhase", SUCCESS)
+        .set("lockData", payload.data)
+        .set("error", null)
+    }
+    case type.CREATE_LOCK_ERROR: {
+      return state.set("createPhase", ERROR).set("error", null)
+    }
+
+     //get user lock action
+    case type.GET_USER_LOCK: {
+      return state.set("phase", LOADING).set("error", null)
+    }
+    case type.GET_USER_LOCK_SUCCESS: {
+      const { payload } = action
+      return state
+        .set("phase", SUCCESS)
+        .set("userLocks", payload.data)
+        .set("error", null)
+    }
+    case type.GET_USER_LOCK_ERROR: {
+      return state.set("phase", ERROR).set("error", null)
+    }
+
+    //delete user lock action
+    case type.DELETE_USER_LOCK: {
+      return state.set("deletePhase", LOADING).set("error", null)
+    }
+    case type.DELETE_USER_LOCK_SUCCESS: {
+      return state
+        .set("deletePhase", SUCCESS)
+        .set("error", null)
+    }
+    case type.DELETE_USER_LOCK_ERROR: {
+      return state.set("deletePhase", ERROR).set("error", null)
+    }
+
+    //edit user lock action
+    case type.EDIT_USER_LOCK: {
+      return state.set("editPhase", LOADING).set("error", null)
+    }
+    case type.EDIT_USER_LOCK_SUCCESS: {
+      return state
+        .set("editPhase", SUCCESS)
+        .set("error", null)
+    }
+    case type.EDIT_USER_LOCK_ERROR: {
+      return state.set("editPhase", ERROR).set("error", null)
     }
     default: {
       return state

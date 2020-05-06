@@ -2,13 +2,11 @@ import { combineReducers } from "redux"
 import { combineEpics } from "redux-observable"
 
 
-import userReducer, { userLoginEpic} from "./menu"
+import userReducer, {   preCreateLockEpic } from "./menu"
 
 
 export const registerUserEpic = combineEpics(
- 
-  userLoginEpic
- 
+  preCreateLockEpic 
 )
 
 const userRegisterReducer = combineReducers({

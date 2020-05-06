@@ -11,8 +11,14 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  componentDidMount(){
-  }
+  // componentWillReceiveProps(nextProps){
+  //   const {phase} = nextProps
+  //   const {getUserLock} = this.props
+  //   if(phase === 'success'){
+  //     console.log('calling')
+  //     getUserLock()
+  //   }
+  // }
 
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value })

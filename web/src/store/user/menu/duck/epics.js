@@ -43,4 +43,85 @@ action$.pipe(
   })
 )
 
-export default combineEpics(registerUserEpic , loginUserEpic)
+const createLockEpic = action$ =>
+action$.pipe(
+  ofType(type.CREATE_LOCK),
+  mergeMap(action => {
+    return Observable.fromPromise(api.createLock(action.payload))
+      .map(payload => ({
+        type: type.CREATE_LOCK_SUCCESS,
+        payload
+      }))
+      .catch(error =>
+        Observable.of({
+          type: type.CREATE_LOCK_ERROR,
+          payload: { error }
+        })
+      )
+  })
+)
+
+const getUserLockEpic = action$ =>
+action$.pipe(
+  ofType(type.GET_USER_LOCK),
+  mergeMap(action => {
+    return Observable.fromPromise(api.getUserLock(action.payload))
+      .map(payload => ({
+        type: type.GET_USER_LOCK_SUCCESS,
+        payload
+      }))
+      .catch(error =>
+        Observable.of({
+          type: type.GET_USER_LOCK_ERROR,
+          payload: { error }
+        })
+      )
+  })
+)
+
+const deleteUserLockEpic = action$ =>
+action$.pipe(
+  ofType(type.DELETE_USER_LOCK),
+  mergeMap(action => {
+    return Observable.fromPromise(api.deleteUserLock(action.payload))
+      .flatMap(payload => [
+      {
+        type: type.DELETE_USER_LOCK_SUCCESS,
+        payload
+      },
+      {
+        type: type.GET_USER_LOCK
+      }
+      ])
+      .catch(error =>
+        Observable.of({
+          type: type.DELETE_USER_LOCK_ERROR,
+          payload: { error }
+        })
+      )
+  })
+)
+
+const editUserLockEpic = action$ =>
+action$.pipe(
+  ofType(type.EDIT_USER_LOCK),
+  mergeMap(action => {
+    return Observable.fromPromise(api.editUserLock(action.payload))
+      .flatMap(payload => [
+      {
+        type: type.EDIT_USER_LOCK_SUCCESS,
+        payload
+      },
+      {
+        type: type.GET_USER_LOCK
+      }
+      ])
+      .catch(error =>
+        Observable.of({
+          type: type.EDIT_USER_LOCK_ERROR,
+          payload: { error }
+        })
+      )
+  })
+)
+export default combineEpics(registerUserEpic , loginUserEpic , createLockEpic  , getUserLockEpic , deleteUserLockEpic , editUserLockEpic)

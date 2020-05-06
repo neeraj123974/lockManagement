@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { userLogin } from "../../../store/user/menu/duck/actions"
+import { userLogin , getUserLock} from "../../../store/user/menu/duck/actions"
 
 import Login from './component'
 
@@ -11,7 +11,8 @@ const LoginContainer = connect(
   }),
   // Map actions to props
   {
-    userLogin
+    userLogin,
+    getUserLock
   }
 )(Login)
 

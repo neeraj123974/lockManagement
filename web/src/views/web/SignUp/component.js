@@ -1,7 +1,5 @@
 import React, { Component } from "react"
 import { Redirect } from 'react-router-dom'
-import { Field, reduxForm } from 'redux-form'
-import _ from 'lodash';
 class SignUp extends Component {
    constructor(props) {
     super(props);
@@ -45,9 +43,8 @@ class SignUp extends Component {
   }
 
   render() {
-    const {setRandomData , sortingStatus} = this.state
     const {phase} = this.props
-   if(phase == "success"){
+   if(phase === "success"){
       return(
         <Redirect to={`/userDashboard`}/>   
         )
@@ -66,7 +63,7 @@ class SignUp extends Component {
            }      
           </div>
           <div className="form-group">
-            <input type="text" className="form-control input-lg" name="password" 
+            <input  className="form-control input-lg" name="password" 
             value={this.state.password} 
             type='password'
             onChange={this.handleChange.bind(this)} placeholder="Enter Password"/>

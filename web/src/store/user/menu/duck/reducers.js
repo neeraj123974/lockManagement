@@ -40,6 +40,7 @@ export default function(state = new InitialState(), action = {}) {
     }
     case type.USER_LOGIN_SUCCESS: {
       const { payload } = action
+      console.log({payload})
       return state
         .set("phase", SUCCESS)
         .set("data", payload.data)

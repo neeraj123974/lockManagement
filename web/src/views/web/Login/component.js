@@ -44,7 +44,7 @@ class Login extends Component {
 
   render() {
     const {phase} = this.props
-   if(phase === "success"){
+    if(phase === "success"){
       return(
         <Redirect to={'/userDashboard'}/>   
         )

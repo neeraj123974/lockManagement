@@ -6,10 +6,10 @@ const HOSTNAME = process.env.REACT_APP_API_HOSTNAME
  	return new Promise(async (resolve, reject) => {
      axios.post(`${HOSTNAME}/api/v1/auth/register`, data)
 	  .then(function (response) {
-	    console.log(response);
+	    resolve(response.data);
 	  })
 	  .catch(function (error) {
-	    console.log(error);
+	     reject(error);
 	  });
    })
 }
@@ -18,10 +18,10 @@ const HOSTNAME = process.env.REACT_APP_API_HOSTNAME
  	return new Promise(async (resolve, reject) => {
      axios.post(`${HOSTNAME}/api/v1/auth/login`, data)
 	  .then(function (response) {
-	    console.log(response);
+	    resolve(response.data);
 	  })
 	  .catch(function (error) {
-	    console.log(error);
+	    reject(error);
 	  });
    })
 }

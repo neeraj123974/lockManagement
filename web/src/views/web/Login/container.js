@@ -6,7 +6,8 @@ import Login from './component'
 const LoginContainer = connect(
   // Map state to props
   (state) => ({
-  	user: state.user.menu.data
+  	user: state.user.menu.data,
+  	phase: state.user.menu.phase
   }),
   // Map actions to props
   {

@@ -9,7 +9,7 @@ const app = express()
 
 // Allow cors and allow origin access
 app.all('*', function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', process.env.HOST_URL);
+  res.header('Access-Control-Allow-Origin',"*");
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
   res.header(

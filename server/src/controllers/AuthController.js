@@ -12,7 +12,6 @@ import Helper from '../utils/helpers'
 
 // User registration and create user account
 const userRegistration = async (req, res) => {
-    console.log({req:req.body})
   try {
     const body = req.body
     let user = await User.findOne({ name: body.name })

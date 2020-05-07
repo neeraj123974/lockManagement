@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Redirect } from 'react-router-dom'
+import { Redirect , Link} from 'react-router-dom'
 import 'antd/dist/antd.css';
 import { message } from 'antd';
 import _ from 'lodash'
@@ -52,6 +52,7 @@ class SignUp extends Component {
 
   render() {
     const {phase , user } = this.props
+    const {userName , password , err} = this.state
     console.log(user)
    if(phase === "success" && _.get(user,'role','') === 'User'){
       return(
@@ -64,36 +65,30 @@ class SignUp extends Component {
         )
     }
     return (
-      <form  onSubmit={this.handleSubmit}>
-        <div>
-          <div>
-            <input type="text"  name="userName" 
-              value={this.state.userName} 
-              onChange={this.handleChange.bind(this)} placeholder="Enter User Name"/>
-              {  this.state.err.userName ?
-              <span>
-                {this.state.err.userName}
-              </span> : ''
-           }      
-          </div>
-          <div className="form-group">
-            <input  className="form-control input-lg" name="password" 
-            value={this.state.password} 
-            type='password'
-            onChange={this.handleChange.bind(this)} placeholder="Enter Password"/>
-            { this.state.err.password ?
-              <span className="error_field">
-               {this.state.err.password}
-              </span> : '' 
-            }      
-          </div>
-          <br/>
-          <br/>
-          <div className="form-group">
-              <button type="submit">Sign In</button>
-          </div>  
-        </div>                       
-      </form>
+      <div className="col-md-6 col-md-offset-3">
+        <h2>Register</h2>
+        <form  name="form" onSubmit={this.handleSubmit}>
+         <div className={'form-group'}>
+            <label htmlFor="userName">Username</label>
+            <input type="text" className="form-control" name="userName" value={userName} onChange={this.handleChange.bind(this)} />
+            { err && err.userName ?
+             <div className="help-block">Username is required</div> : ''
+             }    
+
+        </div>
+        <div className={'form-group'}>
+            <label htmlFor="password">Password</label>
+            <input type="password" className="form-control" name="password" value={password}  onChange={this.handleChange.bind(this)} />
+            {err && err.password ?
+             <div className="help-block">Password is required</div> : '' 
+            }   
+        </div>
+        <div className="form-group">
+            <button type="submit" className="btn btn-primary">Register</button>
+            <Link to="/login" className="btn btn-link">Cancel</Link>
+        </div>                     
+        </form>
+      </div>
      )
   }
 }

@@ -44,34 +44,31 @@ class createLockForm extends Component {
 
   render() {
     const {phase} = this.props
+    const {err , name} = this.state
     if(phase === "success"){
       return(
         <Redirect to={'/userDashboard'}/>   
         )
     }
     return (
-      <>
+      <div className="col-md-6 col-md-offset-3">
+      <h2>Create Lock</h2>
        <form  onSubmit={this.handleSubmit}>
-        <div>
-          <div>
-            <input type="text"  name="name" 
-              value={this.state.name} 
-              onChange={this.handleChange.bind(this)} placeholder="Enter Lock Name"/>
-              {  this.state.err.name ?
-              <span>
-                {this.state.err.name}
-              </span> : ''
-           }      
+          <div className={'form-group'}>
+            <label htmlFor="name">Lock Name</label>
+            <input type="text" className="form-control" name="name" value={name} onChange={this.handleChange.bind(this)} />
+            { err && err.name ?
+             <div className="help-block">Lockname is required</div> : ''
+             }   
           </div>
           <br/>
           <br/>
           <div className="form-group">
-              <button type="submit">Submit
+              <button type="submit" className="btn btn-primary">Submit
               </button>
           </div>  
-        </div>                       
       </form> 
-      </>
+      </div>
      )
   }
 }

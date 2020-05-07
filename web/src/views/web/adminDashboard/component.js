@@ -160,7 +160,7 @@ class adminDeshboard extends Component {
    const {users , locks} = this.props
    const { visible, confirmLoading  ,err ,name , userEditModal} = this.state;
     return (
-    <>
+    <div className="col-md-6 col-md-offset-3">
        <h2>User List with Lock </h2>
        <Collapse accordion>
         {users.length > 0 && users.map((data , i)=>{
@@ -189,6 +189,7 @@ class adminDeshboard extends Component {
   		        </tbody>
 		        </table>
             <h2>Delete or Edit User</h2>
+            <h5>{_.get(data,'name','')}</h5>
             <EditFilled onClick={()=>this.showUserEditModal(data)}/>
             <DeleteFilled className='deleteIcon' onClick={()=>this.deleteUser(data)}/>
 		    </Panel>
@@ -239,7 +240,7 @@ class adminDeshboard extends Component {
         </div>                       
       </form> 
         </Modal>
-	</>
+	</div>
      )
   }
 }

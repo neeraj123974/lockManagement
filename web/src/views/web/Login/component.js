@@ -52,7 +52,8 @@ class Login extends Component {
   }
 
   render() {
-    const {phase , user , loginStatus} = this.props
+    const {phase , user , loginStatus } = this.props
+    const {userName , password , err} = this.state
     if(phase === "success" && _.get(user,'user.role','') === 'User' && loginStatus){
       return(
         <Redirect to={'/userDashboard'}/>   
@@ -64,40 +65,30 @@ class Login extends Component {
         )
     }
     return (
-      <>
-      <form  onSubmit={this.handleSubmit}>
-        <div>
-          <div>
-            <input type="text"  name="userName" 
-              value={this.state.userName} 
-              onChange={this.handleChange.bind(this)} placeholder="Enter User Name"/>
-              {  this.state.err.userName ?
-              <span>
-                {this.state.err.userName}
-              </span> : ''
-           }      
-          </div>
-          <div className="form-group">
-            <input className="form-control input-lg" name="password" 
-            value={this.state.password} 
-            type='password'
-            onChange={this.handleChange.bind(this)} placeholder="Enter Password"/>
-            { this.state.err.password ?
-              <span className="error_field">
-               {this.state.err.password}
-              </span> : '' 
-            }      
-          </div>
-          <br/>
-          <br/>
-          <div className="form-group">
-              <button type="submit">Login
-              </button>
-          </div>  
-        </div>                       
-      </form> 
-      <Link to="/signUp">Sign Up</Link>
-      </>
+      <div className="col-md-6 col-md-offset-3">
+        <h2>Login</h2>
+          <form name="form" onSubmit={this.handleSubmit}>
+              <div className={'form-group'}>
+                  <label htmlFor="userName">Username</label>
+                  <input type="text" className="form-control" name="userName" value={userName} onChange={this.handleChange.bind(this)} />
+                  { err && err.userName ?
+                   <div className="help-block">Username is required</div> : ''
+                   }    
+
+              </div>
+              <div className={'form-group'}>
+                  <label htmlFor="password">Password</label>
+                  <input type="password" className="form-control" name="password" value={password}  onChange={this.handleChange.bind(this)} />
+                  {err && err.password ?
+                   <div className="help-block">Password is required</div> : '' 
+                  }   
+              </div>
+              <div className="form-group">
+                  <button type="submit" className="btn btn-primary">Login</button>
+                  <Link to="/signUp" className="btn btn-link">Register</Link>
+              </div>
+          </form>
+      </div>
      )
   }
 }

@@ -31,7 +31,7 @@ const createJwtAuthToken = user => {
   }
   const options = {
     key: Config.config().token.secret,
-    expires: "1m",
+    expires: "50m",
     verifyOptions: { algorithms: ["HS256"] }
   }
 

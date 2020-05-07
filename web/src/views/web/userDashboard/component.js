@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import 'antd/dist/antd.css';
 import _ from 'lodash'
 import { DeleteFilled , EditFilled , ExclamationCircleOutlined } from '@ant-design/icons';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 const { confirm } = Modal;
 
 class userDeshboard extends Component {
@@ -110,8 +110,14 @@ class userDeshboard extends Component {
       )
     })
     return (
-      <>
-       <Button onClick={()=>this.createLock()}>Create Lock</Button>
+      <div className="col-md-6 col-md-offset-3">
+      <h2>Create lock by clicking on create button</h2>
+      <form  name="form">
+        <div className="form-group">
+         <button type="submit" className="btn btn-primary" onClick={()=>this.createLock()}>Create Lock</button>
+        </div>
+      </form>
+      <h2>List of lock user can edit and delete lock</h2>
        <table>
         <thead>
           <tr>
@@ -131,22 +137,22 @@ class userDeshboard extends Component {
           confirmLoading={confirmLoading}
           onCancel={()=>this.handleCancel()}
         >
-        <form  onSubmit={()=>this.handleSubmit}>
-        <div>
-          <div>
-            <input type="text"  name="name" 
-              value={name} 
-              onChange={this.handleChange.bind(this)} placeholder="Enter Lock Name"/>
-              {  err.name ?
-              <span>
-                {err.name}
-              </span> : ''
-           }      
-          </div> 
-        </div>                       
-      </form> 
+          <form  onSubmit={()=>this.handleSubmit}>
+            <div>
+              <div>
+                <input type="text"  name="name" 
+                  value={name} 
+                  onChange={this.handleChange.bind(this)} placeholder="Enter Lock Name"/>
+                  {  err.name ?
+                  <span>
+                    {err.name}
+                  </span> : ''
+               }      
+              </div> 
+            </div>                       
+          </form> 
         </Modal>
-      </>
+      </div>
      )
   }
 }

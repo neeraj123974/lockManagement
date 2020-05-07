@@ -7,7 +7,7 @@ const baseUrl = '/auth'
 
 router.post(baseUrl + '/login', AuthController.userLogin)
 router.post(baseUrl + '/register', AuthController.userRegistration)
-router.get(baseUrl + '/me', AuthController.userAuthentication)
+// router.get(baseUrl + '/me', AuthController.userAuthentication)
 router.post(baseUrl + '/logout',   AuthController.userLogout)
 router.get(baseUrl + '/getAdmin', AuthController.getAdmin)
 router.post(baseUrl + '/createLock',   LockController.createLock)
@@ -17,4 +17,5 @@ router.put(baseUrl + '/editUserLock',   LockController.editUserLock)
 router.get(baseUrl + '/getUsers', AuthController.getUsers)
 router.post(baseUrl + '/deleteUser',   AuthController.deleteUser)
 router.put(baseUrl + '/editUser',   AuthController.editUser)
+router.get(baseUrl + '/getMe',   AuthController.getMe)
 export default router

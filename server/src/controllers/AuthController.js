@@ -90,46 +90,46 @@ const userLogin = async (req, res)  => {
 }
 
 // Convert token into user information or authentication
-const userAuthentication = async (req, res) => {
-	const token = _.get(req, "headers.authorization", false)// || req.body.access_token || req.query.access_token
-	if (token) {
-	    const decode = Helper.verifyToken(token)
-	    if (decode) {
-	        const user = await User.findOne(
-	            { _id: decode._id, status: true },
-	            { createdAt: 0, updateAt: 0, roles: 0, password: 0, status: 0, forgetPasswordToken: 0 }
-	        )
-	        if (user) {
-	            const token = Helper.createJwtAuthToken(user)
-	            return res.status(200).send({
-	                status: true,
-	                message: "ok",
-	                data: user,
-	                token: token
-	            })
-	        } else {
-	            return res.status(400).send({
-	                status: false,
-	                message: "Token expire. Please Login Again.",
-	                data: []
-	            })
-	        }
-	    } else {
-	        return res.status(400).send({
-	            status: false,
-	            message: "Token expire. Please Login Again.",
-	            data: []
-	        })
-	    }
+// const userAuthentication = async (req, res) => {
+// 	const token = _.get(req, "headers.authorization", false)// || req.body.access_token || req.query.access_token
+// 	if (token) {
+// 	    const decode = Helper.verifyToken(token)
+// 	    if (decode) {
+// 	        const user = await User.findOne(
+// 	            { _id: decode._id, status: true },
+// 	            { createdAt: 0, updateAt: 0, roles: 0, password: 0, status: 0, forgetPasswordToken: 0 }
+// 	        )
+// 	        if (user) {
+// 	            const token = Helper.createJwtAuthToken(user)
+// 	            return res.status(200).send({
+// 	                status: true,
+// 	                message: "ok",
+// 	                data: user,
+// 	                token: token
+// 	            })
+// 	        } else {
+// 	            return res.status(400).send({
+// 	                status: false,
+// 	                message: "Token expire. Please Login Again.",
+// 	                data: []
+// 	            })
+// 	        }
+// 	    } else {
+// 	        return res.status(400).send({
+// 	            status: false,
+// 	            message: "Token expire. Please Login Again.",
+// 	            data: []
+// 	        })
+// 	    }
 
-	} else {
-	    return res.status(200).send({
-	        status: false,
-	        message: "Token Not Provided.",
-	        data: []
-	    })
-	}
-}
+// 	} else {
+// 	    return res.status(200).send({
+// 	        status: false,
+// 	        message: "Token Not Provided.",
+// 	        data: []
+// 	    })
+// 	}
+// }
 
 // User logout 
 const userLogout = (req, res) => {
@@ -278,14 +278,55 @@ const getAdmin = async (req, res) => {
     }
 }
 
+const getMe = async (req, res) => {
+   const token = _.get(req, "headers.authorization", false)// || req.body.access_token || req.query.access_token
+    if (token) {
+        const decode = Helper.verifyToken(token)
+        if (decode) {
+            const user = await User.findOne(
+                { _id: decode._id },
+            )
+            if (user) {
+                const token = Helper.createJwtAuthToken(user)
+                return res.status(200).send({
+                    status: true,
+                    message: "ok",
+                    data: user,
+                    token: token
+                })
+            } else {
+                return res.status(400).send({
+                    status: false,
+                    message: "Token expire. Please Login Again.",
+                    data: []
+                })
+            }
+        } else {
+            return res.status(400).send({
+                status: false,
+                message: "Token expire. Please Login Again.",
+                data: []
+            })
+        }
+
+    } else {
+        return res.status(200).send({
+            status: false,
+            message: "Token Not Provided.",
+            data: []
+        })
+    }
+}
+
 
 export default {
-    userAuthentication,
+    //userAuthentication,
     userRegistration, 
     userLogin,
     userLogout,
     getUsers,
     deleteUser,
     editUser,
-    getAdmin
+    getAdmin,
+    getMe
 }

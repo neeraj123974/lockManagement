@@ -30,10 +30,15 @@ action$.pipe(
   ofType(type.USER_LOGIN),
   mergeMap(action => {
     return Observable.fromPromise(api.loginUser(action.payload))
-      .map(payload => ({
+      .flatMap(payload => [
+      {
         type: type.USER_LOGIN_SUCCESS,
         payload
-      }))
+      },
+      {
+        type: type.FETCH_ME
+      }
+      ])
       .catch(error =>
         Observable.of({
           type: type.USER_LOGIN_ERROR,
@@ -154,6 +159,9 @@ action$.pipe(
       {
         type: type.EDIT_USER_SUCCESS,
         payload
+      },
+      {
+        type: type.FETCH_ME
       }
       ])
       .catch(error =>
@@ -165,4 +173,22 @@ action$.pipe(
   })
 )
 
-export default combineEpics(registerUserEpic , loginUserEpic , createLockEpic  , getUserLockEpic , deleteUserLockEpic , editUserLockEpic ,deleteUserEpic , editUserEpic)
+const getMeEpic = action$ =>
+action$.pipe(
+  ofType(type.FETCH_ME),
+  mergeMap(action => {
+    return Observable.fromPromise(api.getMe(action.payload))
+      .map(payload => ({
+        type: type.FETCH_ME_SUCCESS,
+        payload
+      }))
+      .catch(error =>
+        Observable.of({
+          type: type.FETCH_ME_ERROR,
+          payload: { error }
+        })
+      )
+  })
+)
+
+export default combineEpics(registerUserEpic , loginUserEpic , createLockEpic  , getUserLockEpic , deleteUserLockEpic , editUserLockEpic ,deleteUserEpic , editUserEpic , getMeEpic)

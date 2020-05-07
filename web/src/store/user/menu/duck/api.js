@@ -127,3 +127,20 @@ export const editUser = data => {
 	 });
    })
 }
+
+export const getMe = data => {
+	let token = localStorage.getItem('token');
+ 	return new Promise(async (resolve, reject) => {
+       axios.get(`${HOSTNAME}/api/v1/auth/getMe`  ,{headers: {
+        'authorization': token,
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json'
+    } })
+	 .then(function (response) {
+	   resolve(response.data);
+	 })
+	 .catch(function (error) {
+	   reject(error);
+	 });
+   })
+}

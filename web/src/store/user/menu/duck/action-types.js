@@ -32,4 +32,8 @@ export const EDIT_USER = 'cms/user/EDIT_USER'
 export const EDIT_USER_SUCCESS = 'cms/user/EDIT_USER_SUCCESS'
 export const EDIT_USER_ERROR = 'cms/user/EDIT_USER_ERROR'
 
+export const FETCH_ME = 'cms/user/FETCH_ME'
+export const FETCH_ME_SUCCESS = 'cms/user/FETCH_ME_SUCCESS'
+export const FETCH_ME_ERROR = 'cms/user/FETCH_ME_ERROR'
+
 export const INIT_PHASE = 'cms/user/INIT_PHASE'

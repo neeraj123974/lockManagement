@@ -53,3 +53,9 @@ export const editUser = data => (
   type: type.EDIT_USER,
   payload: data
 })
+
+export const fetchMe = (data) => (
+{
+  type: type.FETCH_ME,
+  payload: data
+})

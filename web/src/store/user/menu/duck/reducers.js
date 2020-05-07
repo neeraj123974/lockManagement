@@ -15,7 +15,8 @@ const InitialStateInterface = {
   deletePhase:INIT,
   editPhase:INIT,
   loginMessage:'',
-  loginStatus:false
+  loginStatus:false,
+  me:[]
 }
 
 class InitialState extends Record(InitialStateInterface) {
@@ -150,6 +151,20 @@ export default function(state = new InitialState(), action = {}) {
     case type.INIT_PHASE: {
       return state.set("editPhase", INIT).set("deletePhase", INIT)
 
+    }
+
+    case type.FETCH_ME: {
+      return state.set("phase", LOADING).set("error", null)
+    }
+    case type.FETCH_ME_SUCCESS: {
+      const { payload } = action
+      return state
+        .set("phase", SUCCESS)
+        .set("me", payload.data)
+        .set("error", null)
+    }
+    case type.FETCH_ME_ERROR: {
+      return state.set("phase", ERROR).set("error", null)
     }
     default: {
       return state

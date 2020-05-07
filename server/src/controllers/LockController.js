@@ -99,7 +99,7 @@ const getUserLock = async (req, res) => {
     }
 }
 
-const DeleteUserLock = async (req, res) => {  
+const deleteUserLock = async (req, res) => {  
     const token = _.get(req, "headers.authorization", false)// || req.body.access_token || req.query.access_token
     if (token) {
         const decode = Helper.verifyToken(token)
@@ -138,7 +138,7 @@ const DeleteUserLock = async (req, res) => {
 }
 
 
-const EditUserLock = async (req, res) => {  
+const editUserLock = async (req, res) => {  
     const token = _.get(req, "headers.authorization", false)// || req.body.access_token || req.query.access_token
     if (token) {
         const decode = Helper.verifyToken(token)
@@ -183,6 +183,6 @@ const EditUserLock = async (req, res) => {
 export default {
     createLock ,
     getUserLock,
-    DeleteUserLock,
-    EditUserLock
+    deleteUserLock,
+    editUserLock
 }

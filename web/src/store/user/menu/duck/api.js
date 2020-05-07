@@ -93,3 +93,37 @@ export const editUserLock = data => {
 	 });
    })
 }
+
+export const deleteUser = data => {
+	let token = localStorage.getItem('token');
+ 	return new Promise(async (resolve, reject) => {
+       axios.post(`${HOSTNAME}/api/v1/auth/deleteUser` , data ,{headers: {
+        'authorization': token,
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json'
+    } })
+	 .then(function (response) {
+	   resolve(response.data);
+	 })
+	 .catch(function (error) {
+	   reject(error);
+	 });
+   })
+}
+
+export const editUser = data => {
+	let token = localStorage.getItem('token');
+ 	return new Promise(async (resolve, reject) => {
+       axios.put(`${HOSTNAME}/api/v1/auth/editUser` , data ,{headers: {
+        'authorization': token,
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json'
+    } })
+	 .then(function (response) {
+	   resolve(response.data);
+	 })
+	 .catch(function (error) {
+	   reject(error);
+	 });
+   })
+}

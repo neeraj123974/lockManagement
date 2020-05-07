@@ -6,7 +6,8 @@ var Schema = mongoose.Schema
 var userSchema = new Schema({
   name: String,
   password: String,
-  dob: { type: Date }
+  dob: { type: Date },
+  role:{type:String , default:'User'}
 },{
   timestamps: true
 })

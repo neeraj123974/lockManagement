@@ -2,18 +2,18 @@ import { combineReducers } from "redux"
 import { combineEpics } from "redux-observable"
 
 
-import menuReducer, { menuEpic } from "./menu"
+import getUserReducer, { preGetUserEpic } from "./menu"
 
 
 export const adminEpic = combineEpics(
  
-  menuEpic
+  preGetUserEpic
  
 )
 
 const adminReducer = combineReducers({
  
-  menu: menuReducer
+  menu: getUserReducer
  
 })
 

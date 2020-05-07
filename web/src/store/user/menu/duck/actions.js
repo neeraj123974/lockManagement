@@ -35,3 +35,21 @@ export const editUserLock = data => (
   type: type.EDIT_USER_LOCK,
   payload: data
 })
+
+export const deleteUser = data => (
+{
+  type: type.DELETE_USER,
+  payload: data
+})
+
+
+export const initPhase = () => (
+{
+  type: type.INIT_PHASE
+})
+
+export const editUser = data => (
+{
+  type: type.EDIT_USER,
+  payload: data
+})

@@ -7,8 +7,6 @@ class createLockForm extends Component {
       name:'',
       err: {}
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillReceiveProps(nextProps){
@@ -21,16 +19,16 @@ class createLockForm extends Component {
     }
   }
  
-  handleChange(event) {
+  handleChange=(event)=> {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit(event) {
+  handleSubmit=(event)=> {
     event.preventDefault()
     const err = {}
     const {name } = this.state
     if (name === '') {
-      err.name = 'Enter User Name'
+      err.name = 'Enter lock Name'
     }
     
     this.setState({ err })

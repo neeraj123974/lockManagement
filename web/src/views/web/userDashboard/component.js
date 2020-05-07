@@ -16,7 +16,7 @@ class userDeshboard extends Component {
       name:''
     }
     // this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    // this.handleSubmit = this.handleSubmit.bind(this)
   }
 	createLock=()=>{
       const {history} = this.props
@@ -32,9 +32,9 @@ class userDeshboard extends Component {
   showDeleteConfirm=(data)=> {
     const {deleteUserLock} = this.props
     confirm({
-      title: 'Are you sure delete this task?',
+      title: 'Are you sure delete this lock?',
       icon: <ExclamationCircleOutlined />,
-      content: 'Some descriptions',
+      content: 'If you delete this lock it will be permanently deleted.',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
@@ -68,7 +68,7 @@ class userDeshboard extends Component {
     });
   };
 
-  handleChange(event){
+  handleChange=(event)=>{
     this.setState({ [event.target.name]: event.target.value })
   }
 
@@ -77,7 +77,7 @@ class userDeshboard extends Component {
     const err = {}
     const {name , editLock} = this.state
     if (name === '') {
-      err.name = 'Enter User Name'
+      err.name = 'Enter lock Name'
     }
     
     this.setState({ err })

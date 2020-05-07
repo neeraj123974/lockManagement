@@ -23,3 +23,13 @@ export const DELETE_USER_LOCK_ERROR = 'cms/user/DELETE_USER_LOCK_ERROR'
 export const EDIT_USER_LOCK = 'cms/user/EDIT_USER_LOCK'
 export const EDIT_USER_LOCK_SUCCESS = 'cms/user/EDIT_USER_LOCK_SUCCESS'
 export const EDIT_USER_LOCK_ERROR = 'cms/user/EDIT_USER_LOCK_ERROR'
+
+export const DELETE_USER = 'cms/user/DELETE_USER'
+export const DELETE_USER_SUCCESS = 'cms/user/DELETE_USER_SUCCESS'
+export const DELETE_USER_ERROR = 'cms/user/DELETE_USER_ERROR'
+
+export const EDIT_USER = 'cms/user/EDIT_USER'
+export const EDIT_USER_SUCCESS = 'cms/user/EDIT_USER_SUCCESS'
+export const EDIT_USER_ERROR = 'cms/user/EDIT_USER_ERROR'
+
+export const INIT_PHASE = 'cms/user/INIT_PHASE'

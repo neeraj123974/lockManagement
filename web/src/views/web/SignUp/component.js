@@ -1,5 +1,8 @@
 import React, { Component } from "react"
 import { Redirect } from 'react-router-dom'
+import 'antd/dist/antd.css';
+import { message } from 'antd';
+import _ from 'lodash'
 class SignUp extends Component {
    constructor(props) {
     super(props);
@@ -8,17 +11,18 @@ class SignUp extends Component {
       password:'',
       err: {}
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-  componentDidMount(){
   }
 
-  handleChange(event) {
+  componentDidMount=()=>{
+    const {fetchAdmin}= this.props
+    fetchAdmin()
+  }
+
+  handleChange=(event) =>{
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit(event) {
+  handleSubmit=(event)=> {
     event.preventDefault()
     const err = {}
     const {userName , password} = this.state
@@ -33,20 +37,30 @@ class SignUp extends Component {
     this.setState({ err })
     
     if (!Object.keys(err).length) {
-        const { userRegister } = this.props
+        const { userRegister , adminData } = this.props
         const data = {
           name: userName,
-          password:password
+          password:password,
+          role : adminData &&  adminData.role === 'Admin' ? 'User' : 'Admin'
         }
-      userRegister(data)
+        if(adminData  && adminData.role !== 'Admin'){
+          message.info('First you will signup as a admin');
+        }
+       userRegister(data)
     }
   }
 
   render() {
-    const {phase} = this.props
-   if(phase === "success"){
+    const {phase , user } = this.props
+    console.log(user)
+   if(phase === "success" && _.get(user,'role','') === 'User'){
       return(
         <Redirect to={`/userDashboard`}/>   
+        )
+    }
+    if(phase === "success" && _.get(user,'role','') === 'Admin'){
+      return(
+        <Redirect to={`/adminDashboard`}/>   
         )
     }
     return (

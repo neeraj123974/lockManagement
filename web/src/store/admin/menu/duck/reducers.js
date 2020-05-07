@@ -8,7 +8,9 @@ import { INIT, LOADING, SUCCESS, ERROR } from "../../../../utils/constants"
 const InitialStateInterface = {
   phase: INIT,
   error: null,
-  data: []
+  users: [],
+  locks:[],
+  adminData:[]
 }
 
 class InitialState extends Record(InitialStateInterface) {
@@ -20,17 +22,32 @@ class InitialState extends Record(InitialStateInterface) {
 
 export default function(state = new InitialState(), action = {}) {
   switch (action.type) {
-    case type.FETCH_MENU_LIST: {
+    case type.FETCH_USER_LIST: {
       return state.set("phase", LOADING).set("error", null)
     }
-    case type.FETCH_MENU_LIST_SUCCESS: {
+    case type.FETCH_USER_LIST_SUCCESS: {
       const { payload } = action
       return state
         .set("phase", SUCCESS)
-        .set("data", payload.data)
+        .set("users", payload.users)
+        .set("locks", payload.locks)
         .set("error", null)
     }
-    case type.FETCH_MENU_LIST_ERROR: {
+    case type.FETCH_USER_LIST_ERROR: {
+      return state.set("phase", ERROR).set("error", null)
+    }
+
+    case type.FETCH_ADMIN: {
+      return state.set("phase", LOADING).set("error", null)
+    }
+    case type.FETCH_ADMIN_SUCCESS: {
+      const { payload } = action
+      return state
+        .set("phase", SUCCESS)
+        .set("adminData", payload.data)
+        .set("error", null)
+    }
+    case type.FETCH_ADMIN_ERROR: {
       return state.set("phase", ERROR).set("error", null)
     }
     default: {

@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import User from '../models/User'
 import Helper from '../utils/helpers'
-
+import Lock from '../models/Lock'
 // Import validation for registration and login
 //import registerationValidation from './validations/registerationValidation'
 //import loginValidation from './validations/loginValidation'
@@ -53,8 +53,7 @@ const userLogin = async (req, res)  => {
             if (passwordCheck) {
                 const token = Helper.createJwtAuthToken(user)
                 const users = await User.findOne(
-                    { _id: user._id },
-                    { createdAt: 0, updateAt: 0, roles: 0, password: 0, status: 0, forgetPasswordToken: 0 }
+                    { _id: user._id }                 
                 )
                 await User.findOneAndUpdate(
                     { _id: user._id },
@@ -75,7 +74,7 @@ const userLogin = async (req, res)  => {
         } else {
             return res.status(200).send({
                 status: false,
-                message: "Login email not found. Please register.",
+                message: "Username not found. Please register.",
                 data: {}
             })
         }
@@ -143,9 +142,150 @@ const userLogout = (req, res) => {
    })
 }
 
+//get admin user and locks
+const getUsers = async (req, res) => {   
+    const token = _.get(req, "headers.authorization", false)// || req.body.access_token || req.query.access_token
+    if (token) {
+        const decode = Helper.verifyToken(token)
+        if (decode) {
+            const Users = await User.find({role:'User'})
+            const Locks = await Lock.find({})
+            if (Users) {
+                return res.status(200).json({
+                    status: true,
+                    message: "Users found successfully.",
+                    users: Users,
+                    locks:Locks
+                })
+            } else {
+                return res.status(400).send({
+                    status: false,
+                    message: "Token expire. Please Login Again.",
+                    data: []
+                })
+            }
+        } else {
+            return res.status(400).send({
+                status: false,
+                message: "Token expire. Please Login Again.",
+                data: []
+            })
+        }
+
+    } else {
+        return res.status(200).send({
+            status: false,
+            message: "Token Not Provided.",
+            data: []
+        })
+    }
+}
+//delete  user by admin
+const deleteUser = async (req, res) => {  
+    const token = _.get(req, "headers.authorization", false)// || req.body.access_token || req.query.access_token
+    if (token) {
+        const decode = Helper.verifyToken(token)
+        if (decode) {
+            const user = await User.remove(
+                { _id: req.body._id }
+            )
+            if (user) {
+                return res.status(200).json({
+                    status: true,
+                    message: "User deleted successfully.",
+                    data: user
+                })
+            } else {
+                return res.status(400).send({
+                    status: false,
+                    message: "Token expire. Please Login Again.",
+                    data: []
+                })
+            }
+        } else {
+            return res.status(400).send({
+                status: false,
+                message: "Token expire. Please Login Again.",
+                data: []
+            })
+        }
+
+    } else {
+        return res.status(200).send({
+            status: false,
+            message: "Token Not Provided.",
+            data: []
+        })
+    }
+}
+
+const editUser = async (req, res) => {  
+    const token = _.get(req, "headers.authorization", false)// || req.body.access_token || req.query.access_token
+    if (token) {
+        const decode = Helper.verifyToken(token)
+        if (decode) {
+            const users = await User.findOne(
+                { name: req.body.name , _id:{$ne:req.body._id} }
+            )
+            if (users) {
+                return res.status(200).json({
+                    status: true,
+                    message: "User name already existed",
+                    data: users
+                })
+            } else {
+                await User.update({
+                   _id:req.body._id
+                },{$set:req.body})
+                return res.status(200).send({
+                    status: true,
+                    message: "User Updated.",
+                })
+            }
+        } else {
+            return res.status(400).send({
+                status: false,
+                message: "Token expire. Please Login Again.",
+                data: []
+            })
+        }
+
+    } else {
+        return res.status(200).send({
+            status: false,
+            message: "Token Not Provided.",
+            data: []
+        })
+    }
+}
+
+const getAdmin = async (req, res) => {
+    const users = await User.findOne(
+        { role:'Admin' }
+    )
+    if (users) {
+        return res.status(200).json({
+            status: true,
+            message: "Admin Found",
+            data: users
+        })
+    }else{
+        return res.status(200).json({
+            status: true,
+            message: "Admin Not Found",
+            data: []
+        })
+    }
+}
+
+
 export default {
     userAuthentication,
     userRegistration, 
     userLogin,
-    userLogout
+    userLogout,
+    getUsers,
+    deleteUser,
+    editUser,
+    getAdmin
 }

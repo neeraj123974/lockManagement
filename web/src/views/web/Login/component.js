@@ -1,5 +1,8 @@
 import React, { Component } from "react"
 import { Redirect, Link } from 'react-router-dom'
+import _ from 'lodash'
+import 'antd/dist/antd.css';
+import { message } from 'antd';
 class Login extends Component {
    constructor(props) {
     super(props);
@@ -8,23 +11,23 @@ class Login extends Component {
       password:'',
       err: {}
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
-  // componentWillReceiveProps(nextProps){
-  //   const {phase} = nextProps
-  //   const {getUserLock} = this.props
-  //   if(phase === 'success'){
-  //     console.log('calling')
-  //     getUserLock()
-  //   }
-  // }
 
-  handleChange(event) {
+ 
+
+  componentWillReceiveProps(nextProps){
+    const {loginMessage , loginStatus} = nextProps
+    if(!loginStatus  && loginMessage){
+      message.info(loginMessage);
+    }
+  }
+ 
+
+  handleChange=(event)=> {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit(event) {
+  handleSubmit=(event)=> {
     event.preventDefault()
     const err = {}
     const {userName , password} = this.state
@@ -49,10 +52,15 @@ class Login extends Component {
   }
 
   render() {
-    const {phase} = this.props
-    if(phase === "success"){
+    const {phase , user , loginStatus} = this.props
+    if(phase === "success" && _.get(user,'user.role','') === 'User' && loginStatus){
       return(
         <Redirect to={'/userDashboard'}/>   
+        )
+    }
+    if(phase === "success" && _.get(user,'user.role','') === 'Admin' && loginStatus){
+      return(
+        <Redirect to={'/adminDashboard'}/>   
         )
     }
     return (

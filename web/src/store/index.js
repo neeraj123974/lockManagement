@@ -3,12 +3,12 @@ import { reducer as formReducer } from "redux-form"
 import thunk from "redux-thunk"
 import { createPromise } from 'redux-promise-middleware'
 import { createEpicMiddleware, combineEpics } from "redux-observable"
-// import adminReducer, { adminEpic } from "./admin"
+import adminReducer, { adminEpic } from "./admin"
 import userReducer, { registerUserEpic } from "./user"
 
 // Combine Epics
-const rootEpic = combineEpics(  registerUserEpic)
-
+const rootEpic = combineEpics(adminEpic , registerUserEpic)
+ 
 // Creating Bundled Epic
 const epicMiddleware = createEpicMiddleware()
 
@@ -17,7 +17,7 @@ const middleware = [thunk, createPromise(), epicMiddleware]
 
 // Combine Reducers to return combine reducer
 const reducers = combineReducers({
-  // admin: adminReducer,
+  admin: adminReducer,
   user:userReducer,
   form: formReducer
 })

@@ -27,6 +27,10 @@
   color: #61dafb;
 }
 
+.deleteIcon{
+  margin-left: 50px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

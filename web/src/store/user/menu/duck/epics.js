@@ -124,4 +124,45 @@ action$.pipe(
       )
   })
 )
-export default combineEpics(registerUserEpic , loginUserEpic , createLockEpic  , getUserLockEpic , deleteUserLockEpic , editUserLockEpic)
+
+const deleteUserEpic = action$ =>
+action$.pipe(
+  ofType(type.DELETE_USER),
+  mergeMap(action => {
+    return Observable.fromPromise(api.deleteUser(action.payload))
+      .flatMap(payload => [
+      {
+        type: type.DELETE_USER_SUCCESS,
+        payload
+      }
+      ])
+      .catch(error =>
+        Observable.of({
+          type: type.DELETE_USER_ERROR,
+          payload: { error }
+        })
+      )
+  })
+)
+
+const editUserEpic = action$ =>
+action$.pipe(
+  ofType(type.EDIT_USER),
+  mergeMap(action => {
+    return Observable.fromPromise(api.editUser(action.payload))
+      .flatMap(payload => [
+      {
+        type: type.EDIT_USER_SUCCESS,
+        payload
+      }
+      ])
+      .catch(error =>
+        Observable.of({
+          type: type.EDIT_USER_ERROR,
+          payload: { error }
+        })
+      )
+  })
+)
+
+export default combineEpics(registerUserEpic , loginUserEpic , createLockEpic  , getUserLockEpic , deleteUserLockEpic , editUserLockEpic ,deleteUserEpic , editUserEpic)

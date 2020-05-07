@@ -13,7 +13,9 @@ const InitialStateInterface = {
   userLocks:[],
   createPhase : INIT,
   deletePhase:INIT,
-  editPhase:INIT
+  editPhase:INIT,
+  loginMessage:'',
+  loginStatus:false
 }
 
 class InitialState extends Record(InitialStateInterface) {
@@ -43,7 +45,11 @@ export default function(state = new InitialState(), action = {}) {
 
     //user login action
     case type.USER_LOGIN: {
-      return state.set("phase", LOADING).set("error", null)
+      return state
+      .set("phase", LOADING)
+      .set("error", null)
+      .set('loginStatus',false)
+      .set('loginMessage','')
     }
     case type.USER_LOGIN_SUCCESS: {
       const { payload } = action
@@ -52,6 +58,8 @@ export default function(state = new InitialState(), action = {}) {
         .set("phase", SUCCESS)
         .set("data", payload.data)
         .set("error", null)
+        .set('loginStatus',payload.status)
+        .set('loginMessage',payload.message)
     }
     case type.USER_LOGIN_ERROR: {
       return state.set("phase", ERROR).set("error", null)
@@ -111,6 +119,37 @@ export default function(state = new InitialState(), action = {}) {
     }
     case type.EDIT_USER_LOCK_ERROR: {
       return state.set("editPhase", ERROR).set("error", null)
+    }
+
+     //delete user  action
+    case type.DELETE_USER: {
+      return state.set("deletePhase", LOADING).set("error", null)
+    }
+    case type.DELETE_USER_SUCCESS: {
+      return state
+        .set("deletePhase", SUCCESS)
+        .set("error", null)
+    }
+    case type.DELETE_USER_ERROR: {
+      return state.set("deletePhase", ERROR).set("error", null)
+    }
+
+    //edit user action
+    case type.EDIT_USER: {
+      return state.set("editPhase", LOADING).set("error", null)
+    }
+    case type.EDIT_USER_SUCCESS: {
+      return state
+        .set("editPhase", SUCCESS)
+        .set("error", null)
+    }
+    case type.EDIT_USER_ERROR: {
+      return state.set("editPhase", ERROR).set("error", null)
+    }
+
+    case type.INIT_PHASE: {
+      return state.set("editPhase", INIT).set("deletePhase", INIT)
+
     }
     default: {
       return state
